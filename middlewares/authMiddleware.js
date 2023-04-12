@@ -6,7 +6,9 @@ const secret = process.env.JWT_KEY;
 exports.authMiddleware = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
-    if (token) {
+    if (token == null) return res.sendStatus(401).json("No token");
+
+    else {
       const decoded = jwt.verify(token, secret);
       req.body._id = decoded?.id;
     }

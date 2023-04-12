@@ -24,7 +24,7 @@ exports.listTodo = async (req, res) => {
       .find({ userId, userId })
       .sort({ priority: 1, createdAt: -1 });
     if (!todos.length) {
-      res.status(200).json("No todos to show");
+      res.status(400).json("No todos to show");
     } else {
       res.status(200).json({ todos });
     }
@@ -45,7 +45,7 @@ exports.completedTodo = async (req, res) => {
       );
       res.status(200).json({ completedTodo });
     } else {
-      res.status(200).json("Todo doesn't exist");
+      res.status(400).json("Todo doesn't exist");
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -64,7 +64,7 @@ exports.cancelledTodo = async (req, res) => {
       );
       res.status(200).json({ cancelledTodo });
     } else {
-      res.status(200).json("Todo doesn't exist");
+      res.status(400).json("Todo doesn't exist");
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -74,8 +74,13 @@ exports.cancelledTodo = async (req, res) => {
 exports.deleteTodo = async (req, res) => {
   try {
     let todoId = req.body.id;
-    let todo = await todoModel.deleteOne({ _id: todoId });
-    res.status(200).json({ todo, msg: "deletion success" });
+    let todo = await todoModel.findOne({ _id: todoId });
+    if (todo) {
+      let deleteTodo = await todoModel.deleteOne({ _id: todoId });
+      res.status(200).json({ deleteTodo, msg: "deletion success" });
+    } else {
+      res.status(400).json("Todo doesn't exist");
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -29,7 +29,7 @@ exports.registerUser = async (req, res) => {
       { expiresIn: "1h" }
     );
     let userId = user._id;
-    res.status(200).json({ userId, token });
+    res.status(200).json({ userId, token, msg:"Register successful" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -57,7 +57,7 @@ exports.loginUser = async (req, res) => {
           { expiresIn: "11h" }
         );
         let userId = user._id;
-        res.status(200).json({ userId, token });
+        res.status(200).json({ userId, token, msg:"Login successful"  });
       }
     } else {
       res.status(404).json("User does not exists");
