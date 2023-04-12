@@ -3,7 +3,7 @@ var router = express.Router();
 
 const auth = require("../middlewares/authMiddleware.js");
 const userRoutes = require("../controllers/userController.js");
-const todoRoutes = require("../controllers/todoController.js")
+const todoRoutes = require("../controllers/todoController.js");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -13,7 +13,11 @@ router.get("/", function (req, res, next) {
 router.post("/register", userRoutes.registerUser);
 router.post("/login", userRoutes.loginUser);
 
+router.get("/:id", todoRoutes.listTodo);
 router.post("/:id/createTodo", todoRoutes.createTodo);
-router.get('/:id',todoRoutes.listTodo);
+
+router.post("/:id/completeTodo", todoRoutes.completedTodo);
+router.post("/:id/cancelledTodo", todoRoutes.cancelledTodo);
+router.post("/deleteTodo", todoRoutes.deleteTodo);
 
 module.exports = router;

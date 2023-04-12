@@ -32,3 +32,41 @@ exports.listTodo = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+exports.completedTodo = async (req, res) => {
+  try {
+    let todoId = req.body.id;
+    let userId = req.params.id;
+    let todo = await todoModel.updateOne(
+      { _id: todoId, userId: userId },
+      { $set: { status: "completed" } }
+    );
+    res.status(200).json({ todo });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.cancelledTodo = async (req, res) => {
+  try {
+    let todoId = req.body.id;
+    let userId = req.params.id;
+    let todo = await todoModel.updateOne(
+      { _id: todoId, userId: userId },
+      { $set: { status: "cancelled" } }
+    );
+    res.status(200).json({ todo });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.deleteTodo = async (req, res) => {
+  try {
+    let todoId = req.body.id;
+    let todo = await todoModel.deleteOne({ _id: todoId });
+    res.status(200).json({ todo, msg: "deletion success" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
