@@ -1,6 +1,6 @@
 const userModel = require("../models/userModel.js");
-const bcrypt = require('bcrypt');
-const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // Registering a new user
 exports.registerUser = async (req, res) => {
@@ -28,7 +28,7 @@ exports.registerUser = async (req, res) => {
       process.env.JWT_KEY,
       { expiresIn: "1h" }
     );
-    let userId = user._id
+    let userId = user._id;
     res.status(200).json({ userId, token });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -56,7 +56,7 @@ exports.loginUser = async (req, res) => {
           process.env.JWT_KEY,
           { expiresIn: "11h" }
         );
-        let userId = user._id
+        let userId = user._id;
         res.status(200).json({ userId, token });
       }
     } else {

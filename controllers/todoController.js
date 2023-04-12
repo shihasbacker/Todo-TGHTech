@@ -37,11 +37,16 @@ exports.completedTodo = async (req, res) => {
   try {
     let todoId = req.body.id;
     let userId = req.params.id;
-    let todo = await todoModel.updateOne(
-      { _id: todoId, userId: userId },
-      { $set: { status: "completed" } }
-    );
-    res.status(200).json({ todo });
+    let todo = await todoModel.findOne({ _id: todoId });
+    if (todo) {
+      let completedTodo = await todoModel.updateOne(
+        { _id: todoId, userId: userId },
+        { $set: { status: "completed" } }
+      );
+      res.status(200).json({ completedTodo });
+    } else {
+      res.status(200).json("Todo doesn't exist");
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -51,11 +56,16 @@ exports.cancelledTodo = async (req, res) => {
   try {
     let todoId = req.body.id;
     let userId = req.params.id;
-    let todo = await todoModel.updateOne(
-      { _id: todoId, userId: userId },
-      { $set: { status: "cancelled" } }
-    );
-    res.status(200).json({ todo });
+    let todo = await todoModel.findOne({ _id: todoId });
+    if (todo) {
+      let cancelledTodo = await todoModel.updateOne(
+        { _id: todoId, userId: userId },
+        { $set: { status: "cancelled" } }
+      );
+      res.status(200).json({ cancelledTodo });
+    } else {
+      res.status(200).json("Todo doesn't exist");
+    }
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
